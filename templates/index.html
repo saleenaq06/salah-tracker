@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>SalahTracker</title>
+</head>
+<body>
+  <h1>SalahTracker</h1>
+  <p>{{ today }}</p>
+
+  {% if saved %}
+    <p>Your prayers were saved.</p>
+  {% endif %}
+
+  <form method="POST">
+    <h2>Today's prayers</h2>
+
+    <label>
+      <input type="checkbox" name="fajr"
+        {% if record and record["fajr"] %}checked{% endif %}>
+      Fajr
+    </label><br>
+
+    <label>
+      <input type="checkbox" name="dhuhr"
+        {% if record and record["dhuhr"] %}checked{% endif %}>
+      Dhuhr
+    </label><br>
+
+    <label>
+      <input type="checkbox" name="asr"
+        {% if record and record["asr"] %}checked{% endif %}>
+      Asr
+    </label><br>
+
+    <label>
+      <input type="checkbox" name="maghrib"
+        {% if record and record["maghrib"] %}checked{% endif %}>
+      Maghrib
+    </label><br>
+
+    <label>
+      <input type="checkbox" name="isha"
+        {% if record and record["isha"] %}checked{% endif %}>
+      Isha
+    </label><br><br>
+
+    <button type="submit">Save prayers</button>
+  </form>
+</body>
+</html>
