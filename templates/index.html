@@ -6,14 +6,19 @@
 </head>
 <body>
   <h1>SalahTracker</h1>
-  <p>{{ today }}</p>
 
   {% if saved %}
     <p>Your prayers were saved.</p>
   {% endif %}
 
   <form method="POST">
-    <h2>Today's prayers</h2>
+    <label for="date">Choose a date:</label>
+    <input id="date" type="date" name="date" value="{{ selected_date }}">
+
+    <button type="submit" formmethod="GET">View date</button>
+
+    <h2>Prayers for {{ selected_date }}</h2>
+    <p>Completed: {{ completed_prayers }} / 5</p>
 
     <label>
       <input type="checkbox" name="fajr"
