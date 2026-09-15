@@ -1,0 +1,39 @@
+{% extends "base.html" %}
+
+{% block title %}History · SalahTracker{% endblock %}
+
+{% block content %}
+<section class="hero compact-hero">
+  <p class="eyebrow">Your saved records</p>
+  <h1>Prayer history</h1>
+  <p class="intro">Review every day you have recorded so far.</p>
+</section>
+
+<section class="tracker-card">
+  <div class="section-heading">
+    <div>
+      <h2>Saved dates</h2>
+      <p>{{ analytics.days_tracked }} day{% if analytics.days_tracked != 1 %}s{% endif %} tracked</p>
+    </div>
+    <a class="secondary-button link-button" href="{{ url_for('home') }}">Record today</a>
+  </div>
+
+  {% if records %}
+    <div class="history-list">
+      {% for record in records %}
+        <a class="history-row" href="{{ url_for('home', date=record.date) }}">
+          <span>{{ record.date }}</span>
+          <strong>{{ record.completed }} / 5</strong>
+          <span aria-hidden="true">→</span>
+        </a>
+      {% endfor %}
+    </div>
+  {% else %}
+    <div class="empty-state">
+      <p>No prayer records yet.</p>
+      <a class="primary-button link-button" href="{{ url_for('home') }}">Record your first day</a>
+    </div>
+  {% endif %}
+</section>
+{% endblock %}
+

@@ -1,56 +1,75 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-  <meta charset="UTF-8">
-  <title>SalahTracker</title>
-</head>
-<body>
-  <h1>SalahTracker</h1>
+{% extends "base.html" %}
 
-  {% if saved %}
-    <p>Your prayers were saved.</p>
-  {% endif %}
+{% block title %}Daily tracker · SalahTracker{% endblock %}
 
-  <form method="POST">
-    <label for="date">Choose a date:</label>
-    <input id="date" type="date" name="date" value="{{ selected_date }}">
+{% block content %}
+<section class="hero">
+    <p class="eyebrow">Private daily prayer tracker</p>
+    <h1>Build consistency, one day at a time.</h1>
+    <p class="intro">Record your five daily prayers and reflect on your progress.</p>
+</section>
 
-    <button type="submit" formmethod="GET">View date</button>
+{% if saved %}
+<p class="notice" role="status">Your prayers for {{ selected_date }} were saved.</p>
+{% endif %}
 
-    <h2>Prayers for {{ selected_date }}</h2>
-    <p>Completed: {{ completed_prayers }} / 5</p>
+<section class="tracker-card">
+    <form method="POST">
+        <div class="date-row">
+            <div>
+                <label for="date">Viewing date</label>
+                <input id="date" type="date" name="date" value="{{ selected_date }}">
+            </div>
+            <button class="secondary-button" type="submit" formmethod="GET">View date</button>
+        </div>
 
-    <label>
-      <input type="checkbox" name="fajr"
-        {% if record and record["fajr"] %}checked{% endif %}>
-      Fajr
-    </label><br>
+        <div class="section-heading">
+            <div>
+                <h2>Daily prayers</h2>
+                <p>{{ selected_date }}</p>
+            </div>
+            <strong class="score">{{ completed_prayers }} <span>/ 5</span></strong>
+        </div>
 
-    <label>
-      <input type="checkbox" name="dhuhr"
-        {% if record and record["dhuhr"] %}checked{% endif %}>
-      Dhuhr
-    </label><br>
+        <div class="progress-track" aria-label="{{ completed_prayers }} of 5 prayers completed">
+            <div class="progress-fill" style="width: {{ completed_prayers * 20 }}%"></div>
+        </div>
 
-    <label>
-      <input type="checkbox" name="asr"
-        {% if record and record["asr"] %}checked{% endif %}>
-      Asr
-    </label><br>
+        <div class="prayer-list">
+            {% for prayer, label in [('fajr', 'Fajr'), ('dhuhr', 'Dhuhr'), ('asr', 'Asr'), ('maghrib', 'Maghrib'),
+            ('isha', 'Isha')] %}
+            <label class="prayer-option">
+                <span>{{ label }}</span>
+                <input type="checkbox" name="{{ prayer }}" {% if record and record[prayer] %}checked{% endif %}>
+            </label>
+            {% endfor %}
+        </div>
 
-    <label>
-      <input type="checkbox" name="maghrib"
-        {% if record and record["maghrib"] %}checked{% endif %}>
-      Maghrib
-    </label><br>
+        <button class="primary-button" type="submit">Save prayers</button>
+    </form>
+</section>
 
-    <label>
-      <input type="checkbox" name="isha"
-        {% if record and record["isha"] %}checked{% endif %}>
-      Isha
-    </label><br><br>
+<section class="stats-grid" aria-label="Your prayer statistics">
+    <article class="stat-card">
+        <p>Total prayers logged</p>
+        <strong>{{ analytics.total_prayers }}</strong>
+        <span>across {{ analytics.days_tracked }} saved day{% if analytics.days_tracked != 1 %}s{% endif %}</span>
+    </article>
+    <article class="stat-card">
+        <p>Overall completion</p>
+        <strong>{{ analytics.completion_percentage }}%</strong>
+        <span>of all prayers tracked</span>
+    </article>
+    <article class="stat-card">
+        <p>Current full-day streak</p>
+        <strong>{{ analytics.current_streak }}</strong>
+        <span>saved complete day{% if analytics.current_streak != 1 %}s{% endif %}</span>
+    </article>
+</section>
+{% endblock %}
 
-    <button type="submit">Save prayers</button>
-  </form>
+mit">Save prayers</button>
+</form>
 </body>
+
 </html>
