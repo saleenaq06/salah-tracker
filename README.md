@@ -35,8 +35,3 @@ A private, local web app for recording the five daily prayers and reflecting on 
 4. Open `http://127.0.0.1:5000` in your browser.
 
 The app creates `data/salah_tracker.db` automatically. This local database is intentionally ignored by Git so personal prayer records are never committed.
-
-## Screenshot
-
-Add a screenshot of the finished home page here before publishing the project to GitHub.
-
